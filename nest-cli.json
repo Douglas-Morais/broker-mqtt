@@ -1,4 +1,30 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "apps/broker-mqtt/src",
+  "monorepo": true,
+  "root": "apps/broker-mqtt",
+  "compilerOptions": {
+    "webpack": true,
+    "tsConfigPath": "apps/broker-mqtt/tsconfig.app.json"
+  },
+  "projects": {
+    "broker-mqtt": {
+      "type": "application",
+      "root": "apps/broker-mqtt",
+      "entryFile": "main",
+      "sourceRoot": "apps/broker-mqtt/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/broker-mqtt/tsconfig.app.json"
+      }
+    },
+    "client-mqtt": {
+      "type": "application",
+      "root": "apps/client-mqtt",
+      "entryFile": "main",
+      "sourceRoot": "apps/client-mqtt/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/client-mqtt/tsconfig.app.json"
+      }
+    }
+  }
 }
