@@ -1,0 +1,14 @@
+version: '3.9'
+services:
+  mosquitto-server:
+    image: eclipse-mosquitto:1.6.15
+    ports:
+      - 1883:1883
+      - 9001:9001
+    networks:
+      - link-iot
+
+networks:
+  link-iot:
+    
+
