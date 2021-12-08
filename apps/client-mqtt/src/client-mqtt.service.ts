@@ -1,8 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 
 @Injectable()
 export class ClientMqttService {
-  getHello(): string {
-    return 'Hello World!';
+  
+  /**
+   * Notify via nest console logger
+   * @param payload 
+   * @returns 
+   */
+  subIot(payload): void {
+    Logger.log("Sub IoT", payload.temp1);
+    return
   }
+
 }

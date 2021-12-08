@@ -1,24 +1,22 @@
-import { Controller, Get, Inject } from '@nestjs/common';
-import { ClientProxy } from '@nestjs/microservices';
-import { Message } from './message';
+import { Controller, Inject, Logger } from '@nestjs/common';
+import { ClientMqtt, Ctx, EventPattern, MqttContext, Payload } from '@nestjs/microservices';
+import { ClientMqttService } from './client-mqtt.service';
 
 @Controller()
 export class ClientMqttController {
   constructor(
-    @Inject('HELLO SERVICE') private readonly client: ClientProxy
-  ) {}
+    @Inject('CLIENT_MQTT') private readonly clientMqtt: ClientMqtt,
+    private clientService: ClientMqttService,
+  ) { }
 
-  async onApplicationBootstrap() {
-    try {
-      await this.client.connect();      
-    } catch (error) {
-      console.error("Error during connection --> ", error);
-    }
+  @EventPattern('iot')
+  getIot(@Payload() payload: string, @Ctx() context: MqttContext) {
+    this.clientService.subIot(payload);
+    return this.clientMqtt.emit('hall', { "hall": 12 });
   }
 
-  @Get()
-  getHello(){
-    this.client.emit('message_printed', new Message("turnOnLight!"));
-    return "Message sent!";
+  @EventPattern('hall')
+  handleHall(@Payload() payload) {
+    return Logger.warn(payload);
   }
 }

@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { Transport, ClientsModule } from '@nestjs/microservices';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { ClientMqttController } from './client-mqtt.controller';
 import { ClientMqttService } from './client-mqtt.service';
 
@@ -7,12 +7,14 @@ import { ClientMqttService } from './client-mqtt.service';
   imports: [
     ClientsModule.register([
       {
-        name: 'HELLO SERVICE',
-        transport: Transport.TCP,
+        name: 'CLIENT_MQTT',
+        transport: Transport.MQTT,
         options: {
-          port: 1883
+          host: 'localhost',
+          port: 1883,
+          protocol: 'mqtt',
         },
-      }
+      },
     ]),
   ],
   controllers: [ClientMqttController],
